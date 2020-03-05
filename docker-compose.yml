@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+
+    php:
+        build:
+            context: ./DOCKER/php
+        ports:
+            - ${FPM_PORT}:9000
+        volumes:
+            - ./:/srv/www/api
+            - ./DOCKER/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+        environment:
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+    nginx:
+        image: nginx:1.13.8
+        ports:
+            - ${HTTP_PORT}:80
+        volumes:
+            - ./:/srv/www/api
+            - ./DOCKER/nginx/default.conf:/etc/nginx/conf.d/default.conf
+        depends_on:
+            - php
+
+    mysql:
+        image: mysql:5.7
+        ports:
+            - ${MYSQL_PORT}:3306
+        depends_on:
+            - php
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
