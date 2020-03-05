@@ -1,15 +1,5 @@
 <?php
 
-echo 'Hey Ramin<br/>';
+$app = require __DIR__.'/bootstrap/app.php';
 
-
-$host = 'mysql';
-$user = getenv('MYSQL_USER');
-$pass = getenv('MYSQL_PASSWORD');
-
-$conn = mysqli_connect($host, $user, $pass);
-if (!$conn) {
-    exit('Connection failed: '.mysqli_connect_error().PHP_EOL);
-}
-
-echo 'Successful database connection!'.PHP_EOL;
+$app->run();
