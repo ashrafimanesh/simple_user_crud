@@ -32,7 +32,7 @@ class Application
         if(isset(static::$binders[$name])){
             return call_user_func_array(static::$binders[$name], $args);
         }
-        return new $name;
+        return new $name(...$args);
     }
 
     public function __construct($basePath){

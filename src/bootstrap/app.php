@@ -8,6 +8,7 @@ $app = new \App\Application($basePath);
 $app->providers([
     App\Providers\AppServiceProvider::class,
     App\Providers\RouteServiceProvider::class,
+    App\Providers\StorageServiceProvider::class,
 ]);
 
 try {

@@ -10,7 +10,9 @@ Route::get('/',function(){
     \App\Application::resolve(\App\Support\Response::class)->render('Hey ramin');
 });
 
-Route::get('user', 'UserController@create');
+Route::get('user', 'UserController@index');
+
+Route::get('user/create', 'UserController@create');
 
 Route::post('user', 'UserController@store');
 

@@ -9,10 +9,15 @@
 namespace App\Http\Controllers;
 
 
+use App\Contracts\iUserRepository;
 use App\Requests\Request;
 
 class UserController
 {
+    public function index(iUserRepository $userRepository,Request $request){
+        return $userRepository->all();
+    }
+
     public function create(){
         return 'response : '.__METHOD__;
     }

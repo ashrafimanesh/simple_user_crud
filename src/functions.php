@@ -14,3 +14,9 @@ if(!function_exists('dd')){
         die;
     }
 }
+
+if(!function_exists('collect')){
+    function collect(array $input = []){
+        return new \App\Support\Collection($input);
+    }
+}
