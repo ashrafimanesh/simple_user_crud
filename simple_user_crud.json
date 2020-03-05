@@ -1,0 +1,176 @@
+{
+	"id": "c6eb0918-5ad7-8136-78ff-42b24f534f4e",
+	"name": "simple user crud",
+	"description": "",
+	"order": [
+		"90c525e3-f279-bad6-c61b-18d4e7f4aa99",
+		"c56f86bd-67a0-236c-371e-c251cb81647c",
+		"ebb0ae3b-c89b-0249-c149-b1e3d99f9d3e",
+		"4e319bb9-82d3-195d-1084-ca1ab63a6b9e"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1583405946096,
+	"owner": 0,
+	"public": false,
+	"requests": [
+		{
+			"id": "4e319bb9-82d3-195d-1084-ca1ab63a6b9e",
+			"headers": "Content-Type: application/x-www-form-urlencoded\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/x-www-form-urlencoded",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:82/user",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "DELETE",
+			"collectionId": "c6eb0918-5ad7-8136-78ff-42b24f534f4e",
+			"data": [
+				{
+					"key": "id",
+					"value": "1",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "urlencoded",
+			"name": "delete user",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1583410140737,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "90c525e3-f279-bad6-c61b-18d4e7f4aa99",
+			"headers": "",
+			"headerData": [],
+			"url": "http://localhost:82/user",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "c6eb0918-5ad7-8136-78ff-42b24f534f4e",
+			"data": null,
+			"dataMode": "params",
+			"name": "create user",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1583405973789,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "c56f86bd-67a0-236c-371e-c251cb81647c",
+			"headers": "Content-Type: application/x-www-form-urlencoded\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/x-www-form-urlencoded",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:82/user",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "c6eb0918-5ad7-8136-78ff-42b24f534f4e",
+			"data": [
+				{
+					"key": "first_name",
+					"value": "Ramin",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "last_name",
+					"value": "Ashrafimanesh",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "urlencoded",
+			"name": "store user",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1583406914732,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "ebb0ae3b-c89b-0249-c149-b1e3d99f9d3e",
+			"headers": "Content-Type: application/x-www-form-urlencoded\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/x-www-form-urlencoded",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:82/user",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "PUT",
+			"collectionId": "c6eb0918-5ad7-8136-78ff-42b24f534f4e",
+			"data": [
+				{
+					"key": "id",
+					"value": "1",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "first_name",
+					"value": "Ramin",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "last_name",
+					"value": "Ashrafimanesh",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "urlencoded",
+			"name": "update user",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1583407540484,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		}
+	]
+}

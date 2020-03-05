@@ -1,0 +1,29 @@
+{
+    "name": "ashrafi/simple_user_crud",
+    "authors": [
+        {
+            "name": "ramin",
+            "email": "ashrafimanesh@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.2",
+        "guzzlehttp/guzzle": "~6.3.3",
+        "vlucas/phpdotenv": "^4.1@dev"
+    },
+    "autoload": {
+        "files": ["src/functions.php"],
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0"
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/"
+        ]
+    }
+}
