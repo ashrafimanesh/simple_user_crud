@@ -20,6 +20,8 @@ class MysqlQueryBuilder
     const TYPE_SELECT = 'select';
     const TYPE_INSERT = 'insert';
     const TYPE_UPDATE = 'update';
+    const TYPE_DELETE = 'delete';
+
     protected $db;
     private $table;
     private $query;
@@ -73,6 +75,15 @@ class MysqlQueryBuilder
         return $builder->parse($db->query($this->query));
     }
 
+    public function delete()
+    {
+        $db = $this->getDb();
+
+        $builder = $this->getBuilder(static::TYPE_DELETE);
+        $this->query = $builder->build();
+        return $builder->parse($db->query($this->query));
+    }
+
     private function getBuilder($type)
     {
         switch($type){
@@ -82,6 +93,8 @@ class MysqlQueryBuilder
                 return new MysqlInsertQueryBuilder($this);
             case static::TYPE_UPDATE:
                 return new MysqlUpdateQueryBuilder($this);
+            case static::TYPE_DELETE:
+                return new MysqlDeleteQueryBuilder($this);
             default:
                 throw new DatabaseException('Invalid query type: '.$type);
         }

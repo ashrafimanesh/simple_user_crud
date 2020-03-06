@@ -75,4 +75,17 @@ class MySqlUserRepository implements iUserRepository
         $entity->updated_at = $date;
         return $entity;
     }
+
+    public function delete($id)
+    {
+        /** @var FilterQuery $filter */
+        $filter = Application::resolve(FilterQuery::class);
+        $filter->where('id', $id);
+        $record = $this->queryBuilder->setFilter($filter)->from(static::TABLE)->get()->first();
+        if(!($record['id'] ?? false)){
+            throw new NotFoundDataException("Can't find user with id: ".$id);
+        }
+        $result = $this->queryBuilder->setFilter($filter)->from(static::TABLE)->delete();
+        return $result;
+    }
 }
