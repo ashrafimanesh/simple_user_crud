@@ -40,4 +40,9 @@ class Collection
     public function toArray(){
         return $this->items;
     }
+
+    public function first()
+    {
+        return $this->items[0] ?? null;
+    }
 }

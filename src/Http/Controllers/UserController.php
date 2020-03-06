@@ -13,11 +13,12 @@ use App\Contracts\iUserRepository;
 use App\Entities\UserEntity;
 use App\Requests\Request;
 use App\Requests\User\UserCreateRequest;
+use App\Requests\User\UserUpdateRequest;
 
 class UserController
 {
     public function index(iUserRepository $userRepository, Request $request){
-        return $userRepository->all();
+        return $userRepository->get();
     }
 
     public function create(){
@@ -27,11 +28,15 @@ class UserController
     public function store(iUserRepository $userRepository, UserCreateRequest $request){
         $request->validate();
 
-        return $userRepository->store(new UserEntity($request->input('first_name'), $request->input('last_name'), $request->input('email')));
+        $entity = new UserEntity($request->input('first_name'), $request->input('last_name'), $request->input('email'));
+        return $userRepository->store($entity);
     }
 
-    public function update(Request $request){
-        return $request->input();
+    public function update(iUserRepository $userRepository, UserUpdateRequest $request){
+        $request->validate();
+        $entity = new UserEntity($request->input('first_name'), $request->input('last_name'), $request->input('email'));
+        $entity->id = $request->input('id');
+        return $userRepository->update($entity);
     }
 
     public function destroy(Request $request){

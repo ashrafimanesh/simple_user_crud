@@ -15,7 +15,9 @@ interface iUserRepository
 {
     const TABLE = 'users';
 
-    public function all();
+    public function get(iFilterQuery $filterQuery = null);
 
     public function store(UserEntity $entity);
+
+    public function update(UserEntity $entity);
 }
