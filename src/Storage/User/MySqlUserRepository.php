@@ -9,9 +9,13 @@
 namespace App\Storage\User;
 
 
+use App\Application;
+use App\Contracts\iFilterQuery;
 use App\Contracts\iUserRepository;
+use App\Databases\FilterQuery;
 use App\Databases\Mysql\MysqlQueryBuilder;
 use App\Entities\UserEntity;
+use App\Exceptions\NotFoundDataException;
 
 class MySqlUserRepository implements iUserRepository
 {
@@ -25,8 +29,11 @@ class MySqlUserRepository implements iUserRepository
         $this->queryBuilder = $queryBuilder;
     }
 
-    public function all()
+    public function get(iFilterQuery $filterQuery = null)
     {
+        if($filterQuery){
+            $this->queryBuilder->setFilter($filterQuery);
+        }
         return $this->queryBuilder->from(static::TABLE)->get();
     }
 
@@ -41,6 +48,30 @@ class MySqlUserRepository implements iUserRepository
             "updated_at"=> $date,
         ]);
         $entity->created_at = $date;
+        $entity->updated_at = $date;
+        return $entity;
+    }
+
+    public function update(UserEntity $entity)
+    {
+        /** @var FilterQuery $filter */
+        $filter = Application::resolve(FilterQuery::class);
+        $filter->where('id', $entity->id);
+        $record = $this->queryBuilder->setFilter($filter)->from(static::TABLE)->get()->first();
+        if(!($record['id'] ?? false)){
+            throw new NotFoundDataException("Can't find user with id: ".$entity->id);
+        }
+        $date = date('Y-m-d H:i:s');
+        $result = $this->queryBuilder->setFilter($filter)->from(static::TABLE)->update([
+            'first_name'=>$entity->firstName,
+            'last_name'=>$entity->lastName,
+            'email'=>$entity->email,
+            "updated_at"=> $date,
+        ]);
+        if(!$result){
+            return null;
+        }
+        $entity->created_at = $record['created_at'];
         $entity->updated_at = $date;
         return $entity;
     }

@@ -18,26 +18,31 @@
 	"requests": [
 		{
 			"id": "1ea795f3-3b26-93af-c7c6-0888f17149b4",
-			"headers": "",
-			"headerData": [],
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
 			"url": "http://localhost:82/user",
 			"queryParams": [],
+			"preRequestScript": null,
 			"pathVariables": {},
 			"pathVariableData": [],
-			"preRequestScript": null,
 			"method": "GET",
-			"collectionId": "c6eb0918-5ad7-8136-78ff-42b24f534f4e",
 			"data": null,
 			"dataMode": "params",
-			"name": "users",
-			"description": "",
-			"descriptionFormat": "html",
-			"time": 1583489540251,
-			"version": 2,
-			"responses": [],
 			"tests": null,
 			"currentHelper": "normal",
-			"helperAttributes": {}
+			"helperAttributes": {},
+			"time": 1583518128793,
+			"name": "users",
+			"description": "",
+			"collectionId": "c6eb0918-5ad7-8136-78ff-42b24f534f4e",
+			"responses": []
 		},
 		{
 			"id": "4e319bb9-82d3-195d-1084-ca1ab63a6b9e",
@@ -184,11 +189,10 @@
 			],
 			"url": "http://localhost:82/user",
 			"queryParams": [],
+			"preRequestScript": null,
 			"pathVariables": {},
 			"pathVariableData": [],
-			"preRequestScript": null,
 			"method": "PUT",
-			"collectionId": "c6eb0918-5ad7-8136-78ff-42b24f534f4e",
 			"data": [
 				{
 					"key": "id",
@@ -206,22 +210,28 @@
 				},
 				{
 					"key": "last_name",
-					"value": "Ashrafimanesh",
+					"value": "Ashrafimanesh1",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "email",
+					"value": "ashrafimanesh@gmail.com",
 					"description": "",
 					"type": "text",
 					"enabled": true
 				}
 			],
 			"dataMode": "urlencoded",
-			"name": "update user",
-			"description": "",
-			"descriptionFormat": "html",
-			"time": 1583407540484,
-			"version": 2,
-			"responses": [],
 			"tests": null,
 			"currentHelper": "normal",
-			"helperAttributes": {}
+			"helperAttributes": {},
+			"time": 1583518123104,
+			"name": "update user",
+			"description": "",
+			"collectionId": "c6eb0918-5ad7-8136-78ff-42b24f534f4e",
+			"responses": []
 		}
 	]
 }

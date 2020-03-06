@@ -43,15 +43,22 @@ class UserTest extends \TestCase
     public function testUpdate(){
         $client = (new \GuzzleHttp\Client());
         $formData = [
-            'id' => '1',
+            'id' => 1,
             'first_name' => 'Ramin',
-            'last_name' => 'Ashrafimanesh'
+            'last_name' => 'Ashrafimanesh',
+            'email'=>'ashrafimanesh@gmail.com'
         ];
         $request = $client->request('put',getenv('APP_URL').'/user',[
             'form_params'=> $formData
         ]);
 
         $response = json_decode((string) $request->getBody(),true);
+        if(isset($response['created_at'])){
+            unset($response['created_at']);
+        }
+        if(isset($response['updated_at'])){
+            unset($response['updated_at']);
+        }
         $this->assertEquals($response, $formData);
     }
 
