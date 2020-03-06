@@ -2,16 +2,16 @@
 To test oop
 
 #### Run Docker
- - Copy env_example to .env
- - Run `docker-compose up` or run `docker-compose up -d` to run containers in background
+ - Copy env_example to .env .
+ - Run `docker-compose up` or run `docker-compose up -d` to run containers in background.
 
 #### Postman
- Import ./simple_user_crud.json to postman collection
+ Import ./simple_user_crud.json to postman collection.
 
 #### Start
 
-You can visit `http://localhost:{HTTP_PORT}` (exp: http://localhost)
-
+ - You can visit `http://localhost:{HTTP_PORT}` (exp: http://localhost).
+ - Call `http://localhost:{HTTP_PORT}/migration/up` to run migrations.
 
 #### Run test
 
