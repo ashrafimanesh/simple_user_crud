@@ -10,6 +10,7 @@ namespace App\Databases\Mysql;
 
 
 use App\Application;
+use App\Contracts\iFilterQuery;
 use App\Exceptions\DatabaseException;
 use App\Providers\StorageServiceProvider;
 use mysqli;
@@ -18,9 +19,12 @@ class MysqlQueryBuilder
 {
     const TYPE_SELECT = 'select';
     const TYPE_INSERT = 'insert';
+    const TYPE_UPDATE = 'update';
     protected $db;
     private $table;
     private $query;
+    /** @var iFilterQuery */
+    private $filter;
 
     public function __construct($connection){
         /** @var MysqlConnection $connection */
@@ -37,13 +41,17 @@ class MysqlQueryBuilder
         return $this;
     }
 
+    /**
+     * @return \App\Support\Collection
+     * @throws DatabaseException
+     */
     public function get()
     {
-        $connection = $this->getDb();
+        $db = $this->getDb();
 
         $builder = $this->getBuilder(static::TYPE_SELECT);
         $this->query = $builder->build();
-        return $builder->parse($connection->query($this->query));
+        return $builder->parse($db->query($this->query));
 
     }
 
@@ -56,6 +64,15 @@ class MysqlQueryBuilder
         return $builder->parse($db->query($this->query));
     }
 
+    public function update($data)
+    {
+        $db = $this->getDb();
+
+        $builder = $this->getBuilder(static::TYPE_UPDATE);
+        $this->query = $builder->build($data);
+        return $builder->parse($db->query($this->query));
+    }
+
     private function getBuilder($type)
     {
         switch($type){
@@ -63,6 +80,8 @@ class MysqlQueryBuilder
                 return new MysqlSelectQueryBuilder($this);
             case static::TYPE_INSERT:
                 return new MysqlInsertQueryBuilder($this);
+            case static::TYPE_UPDATE:
+                return new MysqlUpdateQueryBuilder($this);
             default:
                 throw new DatabaseException('Invalid query type: '.$type);
         }
@@ -87,5 +106,23 @@ class MysqlQueryBuilder
     public function getDb()
     {
         return $this->db;
+    }
+
+    /**
+     * @param iFilterQuery $filter
+     * @return MysqlQueryBuilder
+     */
+    public function setFilter(iFilterQuery $filter)
+    {
+        $this->filter = $filter;
+        return $this;
+    }
+
+    /**
+     * @return iFilterQuery|null
+     */
+    public function getFilter()
+    {
+        return $this->filter;
     }
 }

@@ -21,7 +21,7 @@ class Response implements iResponse
             echo $handleRequestResponse;
             exit;
         }
-        if($this->isAjax()){
+        if($this->isAjax() || $this->isJson()){
             header('Content-Type:application/json');
         }
 
@@ -41,5 +41,10 @@ class Response implements iResponse
     protected function isAjax()
     {
         return $_SERVER['HTTP_CONTENT_TYPE'] == 'application/x-www-form-urlencoded';
+    }
+
+    private function isJson()
+    {
+        return strpos($_SERVER['HTTP_CONTENT_TYPE'] ?? '', 'application/json')!==FALSE;
     }
 }

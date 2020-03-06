@@ -9,11 +9,12 @@
 namespace App\Databases\Mysql;
 
 
+use App\Support\FilterQuery\WhereQuery;
 use mysqli_result;
 
 class MysqlSelectQueryBuilder extends QueryBuilder
 {
-
+    use MysqlFilterQuery;
 
     public function build()
     {
@@ -25,11 +26,23 @@ class MysqlSelectQueryBuilder extends QueryBuilder
         $group = '';
         //TODO create order segment
         $order = '';
+        $limit = '';
+        if($filter = $this->queryBuilder->getFilter()){
+            if($filter->limit()){
+                $limit = 'LIMIT '.$filter->limit();
+                $limit .= ' OFFSET '.$filter->offset();
+            }
+            $conditions = $this->makeConditions($filter, $conditions);
+        }
         return <<<SQL
-SELECT {$fields} FROM {$this->queryBuilder->getTable()} {$conditions} {$group} {$order}
+SELECT {$fields} FROM {$this->queryBuilder->getTable()} {$conditions} {$group} {$order} {$limit}
 SQL;
     }
 
+    /**
+     * @param $result
+     * @return \App\Support\Collection
+     */
     public function parse($result)
     {
         $response = collect([]);
