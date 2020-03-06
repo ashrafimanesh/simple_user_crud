@@ -9,10 +9,14 @@
 namespace App\Support\FilterQuery;
 
 
+use App\Exceptions\InvalidOperandException;
+
 class WhereQuery
 {
     const CONDITION_OR = 'OR';
     const CONDITION_AND = 'AND';
+    const OPERAND_EQUAL = '=';
+    const OPERAND_LIKE = 'like';
 
     protected $condition;
     private $column;
@@ -23,7 +27,7 @@ class WhereQuery
     private $operand;
     private $value;
 
-    public function __construct($column, $value, $operand = '=', $beforeCondition=WhereQuery::CONDITION_AND){
+    public function __construct($column, $value, $operand = WhereQuery::OPERAND_EQUAL, $beforeCondition=WhereQuery::CONDITION_AND){
 
         $this->column = $column;
         $this->value = $value;
@@ -31,10 +35,13 @@ class WhereQuery
         $this->condition = $beforeCondition;
     }
 
-    public function where($column, $value, $operand = '=', $beforeCondition=WhereQuery::CONDITION_AND){
-        $where = new WhereQuery(...func_get_args());
-        $this->children[] = $where;
-        return $where;
+    public function where($column, $value, $operand = WhereQuery::OPERAND_EQUAL, $beforeCondition=WhereQuery::CONDITION_AND){
+        $whereQuery = new WhereQuery(...func_get_args());
+        if(!$whereQuery->isValidOperand()){
+            throw new InvalidOperandException("Operand ".$operand. " is not valid!");
+        }
+        $this->children[] = $whereQuery;
+        return $whereQuery;
     }
 
     public function getColumn()
@@ -68,5 +75,10 @@ class WhereQuery
     public function hasChild()
     {
         return sizeof($this->children) ? true : false;
+    }
+
+    public function isValidOperand()
+    {
+        return in_array($this->operand, [WhereQuery::OPERAND_EQUAL,WhereQuery::OPERAND_LIKE]);
     }
 }

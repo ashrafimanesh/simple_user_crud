@@ -26,7 +26,8 @@ trait MysqlFilterQuery
         $operand = $cond->getOperand();
         $value = $cond->getValue();
         $condition = $cond->getCondition();
-        $conditions .= " $condition `$column` $operand '$value'";
+        $valueWhere = $this->makeValueWhere($operand, $value);
+        $conditions .= " $condition `$column` $valueWhere";
         return $conditions;
     }
 
@@ -50,6 +51,22 @@ trait MysqlFilterQuery
             return $conditions;
         }
         return $conditions;
+    }
+
+    /**
+     * @param $operand
+     * @param $value
+     * @return string
+     */
+    protected function makeValueWhere($operand, $value)
+    {
+        switch($operand){
+            case WhereQuery::OPERAND_LIKE:
+                return "$operand '%$value%'";
+            case WhereQuery::OPERAND_EQUAL:
+            default:
+                return "$operand '$value'";
+        }
     }
 
 }

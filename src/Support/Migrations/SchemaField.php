@@ -11,10 +11,12 @@ namespace App\Support\Migrations;
 
 class SchemaField
 {
+    const INDEX_NORMAL = 'normal';
     public $length;
     protected $primary = false;
     protected $nullAble = false;
     protected $field;
+    protected $index;
 
     public function __construct($field, $length=0, $nullAble = false, $primary = false){
 
@@ -38,4 +40,17 @@ class SchemaField
         return $this->primary;
     }
 
+    public function index($type, $name=null, $direction = 'ASC')
+    {
+        $this->index = compact('type','name','direction');
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIndex()
+    {
+        return $this->index;
+    }
 }
