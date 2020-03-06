@@ -63,15 +63,15 @@ class UserTest extends \TestCase
     }
 
     public function testDestroy(){
-        $client = (new \GuzzleHttp\Client());
-        $formData = [
-            'id' => '1',
-        ];
-        $request = $client->request('delete',getenv('APP_URL').'/user',[
-            'form_params'=> $formData
-        ]);
-
-        $response = json_decode((string) $request->getBody(),true);
-        $this->assertEquals($response, $formData);
+//        $client = (new \GuzzleHttp\Client());
+//        $formData = [
+//            'id' => '1',
+//        ];
+//        $request = $client->request('delete',getenv('APP_URL').'/user',[
+//            'form_params'=> $formData
+//        ]);
+//
+//        $response = json_decode((string) $request->getBody(),true);
+//        $this->assertEquals($response, $formData);
     }
 }

@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: ashrafimanesh@gmail.com
  * Date: 3/6/20
- * Time: 9:00 PM
+ * Time: 9:57 PM
  */
 
 namespace App\Databases\Mysql;
@@ -11,24 +11,18 @@ namespace App\Databases\Mysql;
 
 use App\Exceptions\DatabaseException;
 
-class MysqlUpdateQueryBuilder extends QueryBuilder
+class MysqlDeleteQueryBuilder extends QueryBuilder
 {
     use MysqlFilterQuery;
 
-    public function build($data){
-        $fields="";
-        $mysqli = $this->queryBuilder->getDb()->getConn();
-        foreach ($data as $field => $value) {
-            $fields .= "`$field` = '".mysqli_escape_string($mysqli, $value)."',";
-        }
-        $fields = rtrim($fields, ',') ;
-
+    public function build(){
         $conditions = '';
         if($filter = $this->queryBuilder->getFilter()){
             $conditions = $this->makeConditions($filter, $conditions);
         }
+
         return <<<SQL
-UPDATE {$this->queryBuilder->getTable()} SET {$fields} {$conditions}
+DELETE FROM {$this->queryBuilder->getTable()} {$conditions}
 SQL;
     }
 

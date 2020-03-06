@@ -28,7 +28,7 @@ SQL;
     public function parse($data)
     {
         if(!$data){
-            throw new DatabaseException(mysqli_error($this->queryBuilder->getDb()->getConn()));
+            throw new DatabaseException(mysqli_error($this->queryBuilder->getDb()->getConn()). ' . QUERY:'.$this->queryBuilder->getQuery());
         }
         return $this->queryBuilder->getDb()->getConn()->insert_id ?? null;
     }

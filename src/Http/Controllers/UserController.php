@@ -13,6 +13,7 @@ use App\Contracts\iUserRepository;
 use App\Entities\UserEntity;
 use App\Requests\Request;
 use App\Requests\User\UserCreateRequest;
+use App\Requests\User\UserDestroyRequest;
 use App\Requests\User\UserUpdateRequest;
 
 class UserController
@@ -39,8 +40,10 @@ class UserController
         return $userRepository->update($entity);
     }
 
-    public function destroy(Request $request){
-        return $request->input();
+    public function destroy(iUserRepository $userRepository, UserDestroyRequest $request){
+        $request->validate();
+        $result = $userRepository->delete($request->input('id'));
+        return $result ? ['id'=>$request->input('id')] : false;
     }
 
 }

@@ -16,11 +16,11 @@ class Handler{
     public function handle(\Exception $exception){
 
         Application::resolve(iResponse::class)->render([
-            'Exception'=>[
+            'exception'=>[
                 'message'=>$exception->getMessage()
                 ,'file'=>$exception->getFile()
                 ,'line'=>$exception->getLine()
             ]
-        ]);
+        ], $exception->getCode());
     }
 }

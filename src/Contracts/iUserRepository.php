@@ -20,4 +20,6 @@ interface iUserRepository
     public function store(UserEntity $entity);
 
     public function update(UserEntity $entity);
+
+    public function delete($id);
 }
