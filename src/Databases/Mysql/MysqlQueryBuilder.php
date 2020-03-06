@@ -17,12 +17,14 @@ use mysqli;
 class MysqlQueryBuilder
 {
     const TYPE_SELECT = 'select';
+    const TYPE_INSERT = 'insert';
+    protected $db;
     private $table;
     private $query;
-    private $connection;
 
     public function __construct($connection){
-        $this->connection = $connection;
+        /** @var MysqlConnection $connection */
+        $this->db = StorageServiceProvider::resolveConnection(StorageServiceProvider::STORAGE_MYSQL, $connection);
     }
 
     /**
@@ -37,8 +39,7 @@ class MysqlQueryBuilder
 
     public function get()
     {
-        /** @var MysqlConnection $connection */
-        $connection = StorageServiceProvider::resolveConnection(StorageServiceProvider::STORAGE_MYSQL, $this->connection);
+        $connection = $this->getDb();
 
         $builder = $this->getBuilder(static::TYPE_SELECT);
         $this->query = $builder->build();
@@ -46,11 +47,22 @@ class MysqlQueryBuilder
 
     }
 
+    public function insert($data)
+    {
+        $db = $this->getDb();
+
+        $builder = $this->getBuilder(static::TYPE_INSERT);
+        $this->query = $builder->build($data);
+        return $builder->parse($db->query($this->query));
+    }
+
     private function getBuilder($type)
     {
         switch($type){
             case static::TYPE_SELECT:
                 return new MysqlSelectQueryBuilder($this);
+            case static::TYPE_INSERT:
+                return new MysqlInsertQueryBuilder($this);
             default:
                 throw new DatabaseException('Invalid query type: '.$type);
         }
@@ -67,5 +79,13 @@ class MysqlQueryBuilder
     public function getQuery()
     {
         return $this->query;
+    }
+
+    /**
+     * @return MysqlConnection
+     */
+    public function getDb()
+    {
+        return $this->db;
     }
 }

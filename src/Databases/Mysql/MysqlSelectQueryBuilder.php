@@ -11,21 +11,8 @@ namespace App\Databases\Mysql;
 
 use mysqli_result;
 
-class MysqlSelectQueryBuilder
+class MysqlSelectQueryBuilder extends QueryBuilder
 {
-    /**
-     * @var MysqlQueryBuilder
-     */
-    private $queryBuilder;
-
-    /**
-     * MysqlSelectQueryBuilder constructor.
-     * @param MysqlQueryBuilder $queryBuilder
-     */
-    public function __construct(MysqlQueryBuilder $queryBuilder)
-    {
-        $this->queryBuilder = $queryBuilder;
-    }
 
 
     public function build()

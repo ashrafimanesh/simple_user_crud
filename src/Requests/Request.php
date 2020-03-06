@@ -8,10 +8,14 @@
 
 namespace App\Requests;
 
+use App\Exceptions\RequestValidationException;
+use App\Support\Validator\Rules;
+use App\Support\Validator\Validator;
 
 class Request
 {
-    private $data;
+    protected $rules = [];
+    protected $data;
     private $uriParameters;
 
     public function __construct(){
@@ -27,6 +31,20 @@ class Request
             parse_str(file_get_contents("php://input"),$post_vars);
         }
         $this->data = $_GET + $post_vars;
+    }
+
+    public function validate(){
+        if(!$this->rules){
+            return;
+        }
+        $validator = (new Validator());
+
+        $isValid = $validator->setRules($this->rules)->isValid();
+        if(!$isValid){
+            $requestValidationException = new RequestValidationException('Invalid params in '.get_class($this). ': '.$validator);
+            $requestValidationException->setValidator($validator);
+            throw $requestValidationException;
+        }
     }
 
     public function input($name = null, $default = null)

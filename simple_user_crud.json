@@ -134,11 +134,10 @@
 			],
 			"url": "http://localhost:82/user",
 			"queryParams": [],
+			"preRequestScript": null,
 			"pathVariables": {},
 			"pathVariableData": [],
-			"preRequestScript": null,
 			"method": "POST",
-			"collectionId": "c6eb0918-5ad7-8136-78ff-42b24f534f4e",
 			"data": [
 				{
 					"key": "first_name",
@@ -153,18 +152,24 @@
 					"description": "",
 					"type": "text",
 					"enabled": true
+				},
+				{
+					"key": "email",
+					"value": "ashrafimanesh@gmail.com",
+					"description": "",
+					"type": "text",
+					"enabled": true
 				}
 			],
 			"dataMode": "urlencoded",
-			"name": "store user",
-			"description": "",
-			"descriptionFormat": "html",
-			"time": 1583406914732,
-			"version": 2,
-			"responses": [],
 			"tests": null,
 			"currentHelper": "normal",
-			"helperAttributes": {}
+			"helperAttributes": {},
+			"time": 1583496920843,
+			"name": "store user",
+			"description": "",
+			"collectionId": "c6eb0918-5ad7-8136-78ff-42b24f534f4e",
+			"responses": []
 		},
 		{
 			"id": "ebb0ae3b-c89b-0249-c149-b1e3d99f9d3e",
