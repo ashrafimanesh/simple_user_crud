@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 
 use App\Contracts\iUserRepository;
+use App\Entities\UserEntity;
 use App\Requests\Request;
 use App\Requests\User\UserCreateRequest;
 
@@ -25,7 +26,8 @@ class UserController
 
     public function store(iUserRepository $userRepository, UserCreateRequest $request){
         $request->validate();
-        return $request->input();
+
+        return $userRepository->store(new UserEntity($request->input('first_name'), $request->input('last_name'), $request->input('email')));
     }
 
     public function update(Request $request){
