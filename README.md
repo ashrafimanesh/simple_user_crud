@@ -7,6 +7,10 @@ To test oop
 
 #### Postman
  Import ./simple_user_crud.json to postman collection.
+ 
+ 
+#### Routes
+All routes are defined in `routes.php` file.
 
 #### Start
 
