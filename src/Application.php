@@ -11,7 +11,7 @@ namespace App;
 
 use App\Contracts\iResponse;
 use App\Contracts\iRouter;
-use App\Contracts\iServiceProvider;
+use App\Contracts\ServiceProvider;
 
 class Application
 {
@@ -112,9 +112,9 @@ class Application
     {
         $providers = [];
         foreach($this->providers as $provider){
-            /** @var iServiceProvider $obj */
-            $obj = (new $provider);
-            $obj->register($this);
+            /** @var ServiceProvider $obj */
+            $obj = (new $provider($this));
+            $obj->register();
             $providers[] = $obj;
         }
         return $providers;
@@ -122,9 +122,9 @@ class Application
 
     private function boot(array $providers)
     {
-        /** @var iServiceProvider $provider */
+        /** @var ServiceProvider $provider */
         foreach($providers as $provider){
-            $provider->boot($this);
+            $provider->boot();
         }
     }
 

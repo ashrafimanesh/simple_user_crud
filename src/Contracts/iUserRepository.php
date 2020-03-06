@@ -11,5 +11,7 @@ namespace App\Contracts;
 
 interface iUserRepository
 {
+    const TABLE = 'users';
+
     public function all();
 }

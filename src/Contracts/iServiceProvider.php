@@ -15,15 +15,13 @@ interface iServiceProvider
 {
     /**
      * This method call before boot and you can register all providers or alias in this method.
-     * @param Application $app
      * @return mixed
      */
-    public function register(Application $app);
+    public function register();
 
     /**
      * Publish some configs or bootstrap actions
-     * @param Application $app
      * @return mixed
      */
-    public function boot(Application $app);
+    public function boot();
 }

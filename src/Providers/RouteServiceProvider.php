@@ -9,27 +9,26 @@
 namespace App\Providers;
 
 
-use App\Application;
 use App\Contracts\iRouter;
-use App\Contracts\iServiceProvider;
+use App\Contracts\ServiceProvider;
 use App\Routing\Route;
 use App\Routing\Router;
 
-class RouteServiceProvider implements iServiceProvider
+class RouteServiceProvider extends ServiceProvider
 {
 
-    public function boot(Application $app)
+    public function boot()
     {
         require_once dirname(__DIR__).'/routes.php';
     }
 
-    public function register(Application $app)
+    public function register()
     {
-        $app->bind(iRouter::class, function(){
+        $this->app->bind(iRouter::class, function(){
             return new Router();
         });
 
-        $app->facade([
+        $this->app->facade([
             "Route"=> Route::class,
         ]);
     }

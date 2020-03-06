@@ -10,6 +10,8 @@ Route::get('/',function(){
     \App\Application::resolve(\App\Support\Response::class)->render('Hey ramin');
 });
 
+Route::get('migration/up','MigrationController@up');
+
 Route::get('user', 'UserController@index');
 
 Route::get('user/create', 'UserController@create');
