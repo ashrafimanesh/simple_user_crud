@@ -16,6 +16,7 @@ use App\Support\Migrations\Types\DateTimeField;
 use App\Support\Migrations\Types\StringField;
 
 class MysqlSchemaTable extends SchemaTable
+
 {
     public function create()
     {

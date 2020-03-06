@@ -12,6 +12,7 @@ namespace App;
 use App\Contracts\iResponse;
 use App\Contracts\iRouter;
 use App\Contracts\ServiceProvider;
+use App\Exceptions\Handler;
 
 class Application
 {
@@ -67,7 +68,7 @@ class Application
             $this->boot($providers);
             static::resolve(iResponse::class)->render(static::resolve(iRouter::class)->handleRequest());
         }catch (\Exception $e){
-            (new \ExceptionHandler)->handle($e);
+            (new Handler())->handle($e);
         }
     }
 

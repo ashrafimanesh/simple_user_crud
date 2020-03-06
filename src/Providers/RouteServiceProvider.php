@@ -28,8 +28,5 @@ class RouteServiceProvider extends ServiceProvider
             return new Router();
         });
 
-        $this->app->facade([
-            "Route"=> Route::class,
-        ]);
     }
 }

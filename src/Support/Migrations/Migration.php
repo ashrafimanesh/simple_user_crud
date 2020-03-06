@@ -22,6 +22,8 @@ class Migration
 
     public function __construct(){
         $this->migrations_dir = __DIR__.'/../../migrations';
+        //connect to database
+        $this->_db();
     }
 
     public function up(){
@@ -31,8 +33,6 @@ class Migration
         if(!sizeof($migration_files)){
             die('migration does not exist');
         }
-        //connect to database
-        $this->_db();
 
         //check MIGRATION_TABLE_NAME
         $this->_check_table();
@@ -49,6 +49,25 @@ class Migration
         }
     }
 
+
+    /**
+     * @return bool
+     */
+    public function isMigrationTableExist()
+    {
+        $tables = $this->db_link->query("SHOW TABLES");
+        $table_found = false;
+        if ($tables) {
+            while ($table = mysqli_fetch_assoc($tables)) {
+                if ($table['Tables_in_' . $this->db_link->getDatabaseName()] == $this->tableName) {
+                    $table_found = true;
+                    break;
+                }
+            }
+            return $table_found;
+        }
+        return $table_found;
+    }
 
     /**
      * call migration file up or down method
@@ -90,16 +109,7 @@ class Migration
     }
 
     private function _check_table($create=true){
-        $tables=$this->db_link->query("SHOW TABLES");
-        $table_found=false;
-        if($tables){
-            while($table = mysqli_fetch_assoc($tables)) {
-                if($table['Tables_in_'.$this->db_link->getDatabaseName()]==$this->tableName){
-                    $table_found=true;
-                    break;
-                }
-            }
-        }
+        $table_found = $this->isMigrationTableExist();
 
         if(!$table_found && $create){
             $this->db_link->query("CREATE TABLE `".$this->tableName."` (`migrate` VARCHAR( 255 ) NOT NULL, PRIMARY KEY (  `migrate` )) ENGINE = MYISAM") or die(mysqli_error($this->db_link));

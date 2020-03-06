@@ -33,9 +33,5 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(iResponse::class,function(){
             return new Response();
         });
-
-        $this->app->facade([
-            'ExceptionHandler'=>\App\Exceptions\Handler::class,
-        ]);
     }
 }

@@ -10,7 +10,7 @@ class UserTest extends \TestCase
 {
     public function testCreate(){
         $client = (new \GuzzleHttp\Client());
-        $request = $client->request('get',getenv('APP_URL').'/user');
+        $request = $client->request('get',getenv('APP_URL').'/user/create');
 
         $response = (string) $request->getBody();
         $this->assertEquals($response, 'response : App\Http\Controllers\UserController::create');

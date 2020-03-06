@@ -53,7 +53,7 @@ class StorageServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(iUserRepository::class, function()use($app){
+        $this->app->bind(iUserRepository::class, function(){
             return new MySqlUserRepository(new MysqlQueryBuilder('default'));
         });
     }

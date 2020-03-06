@@ -16,4 +16,8 @@ class MigrationController
     public function up(){
         (new Migration())->up();
     }
+
+    public function checkTable(){
+        return (new Migration())->isMigrationTableExist() ? 'yes' : 'no';
+    }
 }
