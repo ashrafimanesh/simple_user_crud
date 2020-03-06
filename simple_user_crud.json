@@ -29,8 +29,16 @@
 					"enabled": true
 				}
 			],
-			"url": "http://localhost:82/user",
-			"queryParams": [],
+			"url": "http://localhost:82/user?filter[email][like]=@gmail.com",
+			"queryParams": [
+				{
+					"key": "filter[email][like]",
+					"value": "@gmail.com",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
 			"preRequestScript": null,
 			"pathVariables": {},
 			"pathVariableData": [],
@@ -40,7 +48,7 @@
 			"tests": null,
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1583518128793,
+			"time": 1583525216067,
 			"name": "users",
 			"description": "",
 			"collectionId": "c6eb0918-5ad7-8136-78ff-42b24f534f4e",
