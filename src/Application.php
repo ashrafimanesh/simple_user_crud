@@ -11,7 +11,8 @@ namespace App;
 
 use App\Contracts\iResponse;
 use App\Contracts\iRouter;
-use App\Contracts\iServiceProvider;
+use App\Contracts\ServiceProvider;
+use App\Exceptions\Handler;
 
 class Application
 {
@@ -19,6 +20,8 @@ class Application
     private static $binders = [];
 
     protected $facade = [];
+
+    protected $configs = [];
     /**
      * @var
      */
@@ -32,11 +35,12 @@ class Application
         if(isset(static::$binders[$name])){
             return call_user_func_array(static::$binders[$name], $args);
         }
-        return new $name;
+        return new $name(...$args);
     }
 
     public function __construct($basePath){
-        $this->basePath = $basePath;
+        $this->basePath = rtrim($basePath,'/');
+        $this->appPath = __DIR__;
     }
 
     public function facade($array)
@@ -59,12 +63,12 @@ class Application
     public function run()
     {
         try{
-            $this->registerProviders();
+            $providers = $this->registerProviders();
             $this->registerAlias();
-            $this->boot();
+            $this->boot($providers);
             static::resolve(iResponse::class)->render(static::resolve(iRouter::class)->handleRequest());
         }catch (\Exception $e){
-            (new \ExceptionHandler)->handle($e);
+            (new Handler())->handle($e);
         }
     }
 
@@ -85,26 +89,43 @@ class Application
         });
     }
 
-    protected function registerRoutes()
+    public function config($category, $param = null , $value = null)
     {
+        return $param ? ($this->configs[$category][$param] ?? $value) : ($this->configs[$category] ?? $value);
+    }
 
+    public function setConfig($category, $values){
+        $this->configs[$category] = $values;
+        return $this;
+    }
+
+    public function basePath($path = null)
+    {
+        return $this->basePath.($path ? '/'.ltrim($path,'/') : '');
+    }
+
+    public function appPath($path = null)
+    {
+        return $this->appPath.($path ? '/'.ltrim($path,'/') : '');
     }
 
     private function registerProviders()
     {
+        $providers = [];
         foreach($this->providers as $provider){
-            /** @var iServiceProvider $obj */
-            $obj = (new $provider);
-            $obj->register($this);
+            /** @var ServiceProvider $obj */
+            $obj = (new $provider($this));
+            $obj->register();
+            $providers[] = $obj;
         }
+        return $providers;
     }
 
-    private function boot()
+    private function boot(array $providers)
     {
-        foreach($this->providers as $provider){
-            /** @var iServiceProvider $obj */
-            $obj = (new $provider);
-            $obj->boot($this);
+        /** @var ServiceProvider $provider */
+        foreach($providers as $provider){
+            $provider->boot();
         }
     }
 

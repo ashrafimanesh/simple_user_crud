@@ -24,8 +24,13 @@ class Response implements iResponse
         if($this->isAjax()){
             header('Content-Type:application/json');
         }
+
         if(is_array($handleRequestResponse)){
             echo json_encode($handleRequestResponse);
+            exit;
+        }
+        if(is_object($handleRequestResponse) && method_exists($handleRequestResponse,'toArray')){
+            echo json_encode($handleRequestResponse->toArray());
             exit;
         }
     }
