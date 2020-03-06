@@ -2,6 +2,7 @@
 
 use App\Contracts\iUserRepository;
 use App\Support\Migrations\Schema;
+use App\Support\Migrations\SchemaField;
 use App\Support\Migrations\SchemaTable;
 use App\Support\Migrations\Types\BigIntField;
 use App\Support\Migrations\Types\StringField;
@@ -12,7 +13,7 @@ class create_users_table{
             $table->addField((new BigIntField('id', 20, false, true)));
             $table->addField((new StringField('first_name', 200)));
             $table->addField((new StringField('last_name', 200)));
-            $table->addField((new StringField('email', 200)));
+            $table->addField((new StringField('email', 200))->index(SchemaField::INDEX_NORMAL));
             $table->timestamps();
         });
     }

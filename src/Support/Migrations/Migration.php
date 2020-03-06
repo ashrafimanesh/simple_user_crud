@@ -41,12 +41,14 @@ class Migration
         $migration_files=$this->_check_run_migrations($migration_files);
 
         if(sizeof($migration_files)<=0){
-            die('migration does not exist');
+            die('migration file does not exist');
         }
 
+        $responses = [];
         foreach($migration_files as $file){
-            $this->_run($file,'up');
+            $responses[] = $this->_run($file,'up');
         }
+        return $responses;
     }
 
 
@@ -86,14 +88,14 @@ class Migration
                 $res=$class->down();
                 if($res){
                     $res=$this->db_link->query('DELETE FROM '.$this->tableName." WHERE migrate= '$file' ") or die(mysqli_error($this->db_link));
-                    echo '<b style="color:green">drop migration: '.$file."<b/><br/>";
+                    return '<b style="color:green">drop migration: '.$file."<b/><br/>";
                 }
                 break;
             default:
                 $res=$class->up();
                 if($res){
                     $res=$this->db_link->query('INSERT INTO '.$this->tableName." VALUES ('$file')") or die(mysqli_error($this->db_link));
-                    echo '<b style="color:green">run: '.$file."<b/><br/>";
+                    return '<b style="color:green">run: '.$file."<b/><br/>";
                 }
                 break;
         }

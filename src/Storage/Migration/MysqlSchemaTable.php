@@ -32,6 +32,14 @@ class MysqlSchemaTable extends SchemaTable
             if($field->primary()){
                 $indexes.="PRIMARY KEY (`".$field->getField()."`),";
             }
+            else if($index = $field->getIndex()){
+                switch($index['type']){
+                    case SchemaField::INDEX_NORMAL:
+                        $indexName = $index['name'] ?? 'idx_'.$field->getField();
+                        $direction = $index['direction'] ?? 'ASC';
+                        $indexes.=" INDEX `{$indexName}` (`{$field->getField()}` {$direction})";
+                }
+            }
         }
 
         $sql=rtrim($sql,',');
