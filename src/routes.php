@@ -18,6 +18,10 @@ Route::get('migration/exist','MigrationController@checkTable');
 
 Route::get('user', 'UserController@index');
 
+Route::get('user/first', 'UserController@first');
+
+Route::get('user/info', 'UserController@info');
+
 Route::get('user/create', 'UserController@create');
 
 Route::post('user', 'UserController@store');

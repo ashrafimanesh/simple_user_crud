@@ -17,7 +17,7 @@ class MigrationTest extends TestCase
 
         $client = (new \GuzzleHttp\Client());
         $request = $client->request('get',getenv('APP_URL').'/migration/exist');
-        $response = (string) $request->getBody();
+        $response = json_decode((string) $request->getBody(),true)['data'];
         $this->assertEquals($response,'yes');
 
     }

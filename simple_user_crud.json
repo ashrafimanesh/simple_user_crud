@@ -8,7 +8,9 @@
 		"ebb0ae3b-c89b-0249-c149-b1e3d99f9d3e",
 		"4e319bb9-82d3-195d-1084-ca1ab63a6b9e",
 		"1ea795f3-3b26-93af-c7c6-0888f17149b4",
-		"a819e9e5-6cbb-c35b-43d9-fa3584f0b667"
+		"a819e9e5-6cbb-c35b-43d9-fa3584f0b667",
+		"f6ec655e-5e75-f8c1-798a-cb9e9d6f2be2",
+		"fca7b7a2-d5cf-c90f-5b7c-09b4b79522ca"
 	],
 	"folders": [],
 	"folders_order": [],
@@ -232,6 +234,60 @@
 			"description": "",
 			"collectionId": "c6eb0918-5ad7-8136-78ff-42b24f534f4e",
 			"responses": []
+		},
+		{
+			"id": "f6ec655e-5e75-f8c1-798a-cb9e9d6f2be2",
+			"headers": "",
+			"headerData": [],
+			"url": "http://localhost:82/user/first",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "c6eb0918-5ad7-8136-78ff-42b24f534f4e",
+			"data": null,
+			"dataMode": "params",
+			"name": "first user",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1583522511098,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "fca7b7a2-d5cf-c90f-5b7c-09b4b79522ca",
+			"headers": "",
+			"headerData": [],
+			"url": "http://localhost:82/user/info?id=5",
+			"queryParams": [
+				{
+					"key": "id",
+					"value": "5",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "c6eb0918-5ad7-8136-78ff-42b24f534f4e",
+			"data": null,
+			"dataMode": "params",
+			"name": "user info",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1583522667351,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
 		}
 	]
 }
