@@ -9,7 +9,9 @@
 namespace App\Http\Controllers;
 
 
+use App\Application;
 use App\Contracts\iUserRepository;
+use App\Databases\FilterQuery;
 use App\Entities\UserEntity;
 use App\Requests\Request;
 use App\Requests\User\UserCreateRequest;
@@ -20,7 +22,22 @@ use App\Requests\User\UserUpdateRequest;
 class UserController
 {
     public function index(iUserRepository $userRepository, Request $request){
-        return $userRepository->get();
+        if($filter = $request->input('filter')){
+            if(is_array($filter)){
+                /** @var FilterQuery $filterQuery */
+                $filterQuery = Application::resolve(FilterQuery::class);
+                foreach($filter as $column=>$f){
+                    $value = $f;
+                    $operand = 'like';
+                    if(is_array($f)){
+                        $value = array_values($f)[0];
+                        $operand = array_keys($f)[0];
+                    }
+                    $filterQuery->where($column, $value, $operand);
+                }
+            }
+        }
+        return $userRepository->get(isset($filterQuery) ? $filterQuery : null);
     }
 
     public function create(){
