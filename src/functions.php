@@ -26,6 +26,21 @@ function config($category, $param, $default = null){
     return $param ? ($config[$param] ?? $default) : ($config ?? $default);
 }
 
+if(!function_exists('toArray')){
+    function toArray($data){
+        if (!$data) {
+            return [];
+        }
+        switch (true) {
+            case is_array($data):
+                return $data;
+            case is_object($data):
+                return json_decode(json_encode($data), true);
+        }
+        return [];
+    }
+}
+
 function dirToArray($dir,$invalidDirs=array('.','..')){
     $scan_result = scandir( $dir );
     $result=array();

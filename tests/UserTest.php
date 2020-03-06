@@ -20,7 +20,8 @@ class UserTest extends \TestCase
         $client = (new \GuzzleHttp\Client());
         $formData = [
             'first_name' => 'Ramin',
-            'last_name' => 'Ashrafimanesh'
+            'last_name' => 'Ashrafimanesh',
+            'email'=>'ashrafimanesh@gmail.com'
         ];
         $request = $client->request('post',getenv('APP_URL').'/user',[
             'form_params'=> $formData
