@@ -18,6 +18,7 @@ class FilterQuery implements iFilterQuery
     public $limit=0,$offset=0;
 
     protected $first;
+    protected $where=[];
 
     public function first(){
         $this->limit = 1;

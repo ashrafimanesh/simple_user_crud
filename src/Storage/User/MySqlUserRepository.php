@@ -75,4 +75,49 @@ class MySqlUserRepository implements iUserRepository
         $entity->updated_at = $date;
         return $entity;
     }
+
+    public function delete($id)
+    {
+        /** @var FilterQuery $filter */
+        $filter = Application::resolve(FilterQuery::class);
+        $filter->where('id', $id);
+        $record = $this->queryBuilder->setFilter($filter)->from(static::TABLE)->get()->first();
+        if(!($record['id'] ?? false)){
+            throw new NotFoundDataException("Can't find user with id: ".$id);
+        }
+        $result = $this->queryBuilder->setFilter($filter)->from(static::TABLE)->delete();
+        return $result;
+    }
+
+    public function first()
+    {
+        /** @var FilterQuery $filter */
+        $filter = Application::resolve(FilterQuery::class);
+        $filter->first();
+        $record = $this->queryBuilder->setFilter($filter)->from(static::TABLE)->get()->first();
+        if(!($record['id'] ?? false)){
+            throw new NotFoundDataException("Can't find user");
+        }
+        $entity = new UserEntity($record['first_name'], $record['last_name'], $record['email']);
+        $entity->id = $record['id'];
+        $entity->created_at = $record['created_at'];
+        $entity->updated_at = $record['updated_at'];
+        return $entity;
+    }
+
+    public function info($id)
+    {
+        /** @var FilterQuery $filter */
+        $filter = Application::resolve(FilterQuery::class);
+        $filter->where('id', $id);
+        $record = $this->queryBuilder->setFilter($filter)->from(static::TABLE)->get()->first();
+        if(!($record['id'] ?? false)){
+            throw new NotFoundDataException("Can't find user with id: ".$id);
+        }
+        $entity = new UserEntity($record['first_name'], $record['last_name'], $record['email']);
+        $entity->id = $record['id'];
+        $entity->created_at = $record['created_at'];
+        $entity->updated_at = $record['updated_at'];
+        return $entity;
+    }
 }

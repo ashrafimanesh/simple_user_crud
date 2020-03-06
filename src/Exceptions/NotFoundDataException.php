@@ -9,7 +9,11 @@
 namespace App\Exceptions;
 
 
-class NotFoundDataException extends \Exception
+class NotFoundDataException extends Exception
 {
+
+    public function __construct($message = "", $code = 404, \Exception $previous = null){
+        parent::__construct(...func_get_args());
+    }
 
 }

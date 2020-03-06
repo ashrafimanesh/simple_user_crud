@@ -12,5 +12,5 @@ namespace App\Contracts;
 interface iResponse
 {
 
-    public function render($handleRequestResponse);
+    public function render($handleRequestResponse,$code=200);
 }

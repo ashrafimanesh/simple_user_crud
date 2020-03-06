@@ -10,29 +10,25 @@ namespace App\Support;
 
 
 use App\Contracts\iResponse;
+use App\DataModels\BaseResponse;
 
 class Response implements iResponse
 {
 
-    public function render($handleRequestResponse)
+    public function render($handleRequestResponse, $code=200)
     {
-        //TODO handle response headers
-        if(is_string($handleRequestResponse)){
-            echo $handleRequestResponse;
-            exit;
+        //TODO handle response headers and response type
+
+        header('Content-Type:application/json');
+        if(is_object($handleRequestResponse) && method_exists($handleRequestResponse,'toArray')){
+            $baseResponse = new BaseResponse($handleRequestResponse->toArray(),$code);
         }
-        if($this->isAjax() || $this->isJson()){
-            header('Content-Type:application/json');
+        else{
+            $baseResponse = new BaseResponse($handleRequestResponse, $code);
         }
 
-        if(is_array($handleRequestResponse)){
-            echo json_encode($handleRequestResponse);
-            exit;
-        }
-        if(is_object($handleRequestResponse) && method_exists($handleRequestResponse,'toArray')){
-            echo json_encode($handleRequestResponse->toArray());
-            exit;
-        }
+        echo json_encode($baseResponse);
+        exit;
     }
 
     /**

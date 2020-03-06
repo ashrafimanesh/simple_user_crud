@@ -29,6 +29,7 @@ class MysqlSelectQueryBuilder extends QueryBuilder
         $limit = '';
         if($filter = $this->queryBuilder->getFilter()){
             if($filter->limit()){
+
                 $limit = 'LIMIT '.$filter->limit();
                 $limit .= ' OFFSET '.$filter->offset();
             }
