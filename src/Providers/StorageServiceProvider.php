@@ -10,13 +10,16 @@ namespace App\Providers;
 
 
 use App\Application;
-use App\Contracts\iServiceProvider;
 use App\Contracts\iUserRepository;
+use App\Contracts\ServiceProvider;
+use App\Databases\Mysql\MysqlConnection;
 use App\Databases\Mysql\MysqlQueryBuilder;
 use App\Exceptions\DatabaseException;
+use App\Storage\Migration\MysqlSchemaTable;
 use App\Storage\User\MySqlUserRepository;
+use App\Support\Migrations\SchemaTable;
 
-class StorageServiceProvider implements iServiceProvider
+class StorageServiceProvider extends ServiceProvider
 {
     const STORAGE_MYSQL='mysql';
 
@@ -35,29 +38,36 @@ class StorageServiceProvider implements iServiceProvider
         return ucfirst($driver).'Connection' . ucfirst($connection);
     }
 
+    public static function resolveMigration($connection, $table): SchemaTable
+    {
+        switch(config('database',$connection)['driver']){
+            case static::STORAGE_MYSQL:
+                return new MysqlSchemaTable($table);
+        }
+    }
+
     /**
      * This method call before boot and you can register all providers or alias in this method.
-     * @param Application $app
      * @return mixed
+     * @internal param Application $app
      */
-    public function register(Application $app)
+    public function register()
     {
-        $app->bind(iUserRepository::class, function()use($app){
-            //TODO check user database driver
+        $this->app->bind(iUserRepository::class, function(){
             return new MySqlUserRepository(new MysqlQueryBuilder('default'));
         });
     }
 
     /**
      * Publish some configs or bootstrap actions
-     * @param Application $app
      * @return mixed
+     * @internal param Application $app
      */
-    public function boot(Application $app)
+    public function boot()
     {
-        foreach($app->config('database') as $connection=>$config){
+        foreach($this->app->config('database') as $connection=>$config){
             if($config['driver']==static::STORAGE_MYSQL){
-                $app->singleton(static::makeConnectionAlias($config['driver'], $connection), function()use($connection,$config){
+                $this->app->singleton(static::makeConnectionAlias($config['driver'], $connection), function()use($connection,$config){
                     $conn = mysqli_connect($config['host'], $config['user'], $config['pass'], $config['database']);
                     if (!$conn) {
                         $error = mysqli_connect_error();
@@ -65,7 +75,7 @@ class StorageServiceProvider implements iServiceProvider
                         $databaseException->setError($error);
                         throw $databaseException;
                     }
-                    return $conn;
+                    return (new MysqlConnection($conn,$config));
                 });
             }
         }

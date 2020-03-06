@@ -11,7 +11,8 @@ namespace App;
 
 use App\Contracts\iResponse;
 use App\Contracts\iRouter;
-use App\Contracts\iServiceProvider;
+use App\Contracts\ServiceProvider;
+use App\Exceptions\Handler;
 
 class Application
 {
@@ -67,7 +68,7 @@ class Application
             $this->boot($providers);
             static::resolve(iResponse::class)->render(static::resolve(iRouter::class)->handleRequest());
         }catch (\Exception $e){
-            (new \ExceptionHandler)->handle($e);
+            (new Handler())->handle($e);
         }
     }
 
@@ -112,9 +113,9 @@ class Application
     {
         $providers = [];
         foreach($this->providers as $provider){
-            /** @var iServiceProvider $obj */
-            $obj = (new $provider);
-            $obj->register($this);
+            /** @var ServiceProvider $obj */
+            $obj = (new $provider($this));
+            $obj->register();
             $providers[] = $obj;
         }
         return $providers;
@@ -122,9 +123,9 @@ class Application
 
     private function boot(array $providers)
     {
-        /** @var iServiceProvider $provider */
+        /** @var ServiceProvider $provider */
         foreach($providers as $provider){
-            $provider->boot($this);
+            $provider->boot();
         }
     }
 

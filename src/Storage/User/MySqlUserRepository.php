@@ -14,7 +14,6 @@ use App\Databases\Mysql\MysqlQueryBuilder;
 
 class MySqlUserRepository implements iUserRepository
 {
-    const TABLE = 'users';
     /**
      * @var MysqlQueryBuilder
      */

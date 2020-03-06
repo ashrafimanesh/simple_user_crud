@@ -11,31 +11,27 @@ namespace App\Providers;
 
 use App\Application;
 use App\Contracts\iResponse;
-use App\Contracts\iServiceProvider;
+use App\Contracts\ServiceProvider;
 use App\Requests\Request;
 use App\Support\Response;
 
-class AppServiceProvider implements iServiceProvider
+class AppServiceProvider extends ServiceProvider
 {
 
-    public function boot(Application $app)
+    public function boot()
     {
-        $app->setConfig('database',require $app->appPath('configs/database.php'));
+        $this->app->setConfig('database',require $this->app->appPath('configs/database.php'));
     }
 
-    public function register(Application $app)
+    public function register()
     {
-        $app->singleton(Request::class,function(){
+        $this->app->singleton(Request::class,function(){
             $req = new Request();
             return $req;
         });
 
-        $app->bind(iResponse::class,function(){
+        $this->app->bind(iResponse::class,function(){
             return new Response();
         });
-
-        $app->facade([
-            'ExceptionHandler'=>\App\Exceptions\Handler::class,
-        ]);
     }
 }

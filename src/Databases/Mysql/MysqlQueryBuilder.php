@@ -37,7 +37,7 @@ class MysqlQueryBuilder
 
     public function get()
     {
-        /** @var mysqli $connection */
+        /** @var MysqlConnection $connection */
         $connection = StorageServiceProvider::resolveConnection(StorageServiceProvider::STORAGE_MYSQL, $this->connection);
 
         $builder = $this->getBuilder(static::TYPE_SELECT);

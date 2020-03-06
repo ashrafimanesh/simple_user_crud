@@ -20,3 +20,21 @@ if(!function_exists('collect')){
         return new \App\Support\Collection($input);
     }
 }
+
+function config($category, $param, $default = null){
+    $config = require __DIR__.'/configs/'.$category.'.php';
+    return $param ? ($config[$param] ?? $default) : ($config ?? $default);
+}
+
+function dirToArray($dir,$invalidDirs=array('.','..')){
+    $scan_result = scandir( $dir );
+    $result=array();
+    foreach ( $scan_result as $key => $value ) {
+
+        if (in_array($value, $invalidDirs) || is_dir($dir . '/' . $value)) {
+            continue;
+        }
+        $result[]=$value;
+    }
+    return $result;
+}
