@@ -11,17 +11,18 @@ namespace App\Databases\Mysql;
 
 use App\Application;
 use App\Exceptions\DatabaseException;
+use App\Providers\StorageServiceProvider;
 use mysqli;
 
 class MysqlQueryBuilder
 {
     const TYPE_SELECT = 'select';
     private $table;
-    private $dbName;
     private $query;
+    private $connection;
 
-    public function __construct($dbName){
-        $this->dbName = $dbName;
+    public function __construct($connection){
+        $this->connection = $connection;
     }
 
     /**
@@ -37,8 +38,8 @@ class MysqlQueryBuilder
     public function get()
     {
         /** @var mysqli $connection */
-        $connection = Application::resolve('MysqlConnection');
-        $connection->select_db($this->dbName);
+        $connection = StorageServiceProvider::resolveConnection(StorageServiceProvider::STORAGE_MYSQL, $this->connection);
+
         $builder = $this->getBuilder(static::TYPE_SELECT);
         $this->query = $builder->build();
         return $builder->parse($connection->query($this->query));

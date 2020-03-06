@@ -18,6 +18,22 @@ use App\Storage\User\MySqlUserRepository;
 
 class StorageServiceProvider implements iServiceProvider
 {
+    const STORAGE_MYSQL='mysql';
+
+    public static function resolveConnection($driver, $connection)
+    {
+        return Application::resolve(static::makeConnectionAlias($driver, $connection));
+    }
+
+    /**
+     * @param $driver
+     * @param $connection
+     * @return string
+     */
+    public static function makeConnectionAlias($driver, $connection)
+    {
+        return ucfirst($driver).'Connection' . ucfirst($connection);
+    }
 
     /**
      * This method call before boot and you can register all providers or alias in this method.
@@ -27,21 +43,8 @@ class StorageServiceProvider implements iServiceProvider
     public function register(Application $app)
     {
         $app->bind(iUserRepository::class, function()use($app){
-            return new MySqlUserRepository(new MysqlQueryBuilder(getenv('MYSQL_DATABASE')));
-        });
-
-        $app->singleton('MysqlConnection',function(){
-            $host = getenv('MYSQL_HOST');
-            $user = getenv('MYSQL_USER');
-            $pass = getenv('MYSQL_PASSWORD');
-            $conn = mysqli_connect($host, $user, $pass);
-            if (!$conn) {
-                $error = mysqli_connect_error();
-                $databaseException = new DatabaseException('Connection failed: ' . $error);
-                $databaseException->setError($error);
-                throw $databaseException;
-            }
-            return $conn;
+            //TODO check user database driver
+            return new MySqlUserRepository(new MysqlQueryBuilder('default'));
         });
     }
 
@@ -52,5 +55,19 @@ class StorageServiceProvider implements iServiceProvider
      */
     public function boot(Application $app)
     {
+        foreach($app->config('database') as $connection=>$config){
+            if($config['driver']==static::STORAGE_MYSQL){
+                $app->singleton(static::makeConnectionAlias($config['driver'], $connection), function()use($connection,$config){
+                    $conn = mysqli_connect($config['host'], $config['user'], $config['pass'], $config['database']);
+                    if (!$conn) {
+                        $error = mysqli_connect_error();
+                        $databaseException = new DatabaseException('Connection failed: ' . $error);
+                        $databaseException->setError($error);
+                        throw $databaseException;
+                    }
+                    return $conn;
+                });
+            }
+        }
     }
 }

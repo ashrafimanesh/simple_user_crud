@@ -20,6 +20,7 @@ class AppServiceProvider implements iServiceProvider
 
     public function boot(Application $app)
     {
+        $app->setConfig('database',require $app->appPath('configs/database.php'));
     }
 
     public function register(Application $app)
