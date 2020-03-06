@@ -9,9 +9,13 @@
 namespace App\Contracts;
 
 
+use App\Entities\UserEntity;
+
 interface iUserRepository
 {
     const TABLE = 'users';
 
     public function all();
+
+    public function store(UserEntity $entity);
 }

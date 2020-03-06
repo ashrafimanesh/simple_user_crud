@@ -28,6 +28,15 @@ class UserTest extends \TestCase
         ]);
 
         $response = json_decode((string) $request->getBody(),true);
+        if(isset($response['id'])){
+            unset($response['id']);
+        }
+        if(isset($response['created_at'])){
+            unset($response['created_at']);
+        }
+        if(isset($response['updated_at'])){
+            unset($response['updated_at']);
+        }
         $this->assertEquals($response, $formData);
     }
 
