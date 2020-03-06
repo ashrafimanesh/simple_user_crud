@@ -11,10 +11,11 @@ namespace App\Http\Controllers;
 
 use App\Contracts\iUserRepository;
 use App\Requests\Request;
+use App\Requests\User\UserCreateRequest;
 
 class UserController
 {
-    public function index(iUserRepository $userRepository,Request $request){
+    public function index(iUserRepository $userRepository, Request $request){
         return $userRepository->all();
     }
 
@@ -22,7 +23,8 @@ class UserController
         return 'response : '.__METHOD__;
     }
 
-    public function store(Request $request){
+    public function store(iUserRepository $userRepository, UserCreateRequest $request){
+        $request->validate();
         return $request->input();
     }
 
