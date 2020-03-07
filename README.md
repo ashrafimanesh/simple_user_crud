@@ -5,6 +5,11 @@ To test oop
  - Copy env_example to .env .
  - Run `docker-compose up` or run `docker-compose up -d` to run containers in background.
 
+#### Composer
+
+ - `cd /project_path/`
+ - `composer install`
+
 #### Postman
  Import ./simple_user_crud.json to postman collection.
  
