@@ -38,6 +38,12 @@ class MysqlSchemaTable extends SchemaTable
                         $indexName = $index['name'] ?? 'idx_'.$field->getField();
                         $direction = $index['direction'] ?? 'ASC';
                         $indexes.=" INDEX `{$indexName}` (`{$field->getField()}` {$direction})";
+                        break;
+                    case SchemaField::INDEX_UNIQUE:
+                        $indexName = $index['name'] ?? 'unique_'.$field->getField();
+                        $direction = $index['direction'] ?? 'ASC';
+                        $indexes.=" UNIQUE INDEX `{$indexName}` (`{$field->getField()}` {$direction})";
+                        break;
                 }
             }
         }

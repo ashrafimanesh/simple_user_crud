@@ -12,6 +12,7 @@ namespace App\Support\Migrations;
 class SchemaField
 {
     const INDEX_NORMAL = 'normal';
+    const INDEX_UNIQUE = 'unique';
     public $length;
     protected $primary = false;
     protected $nullAble = false;
