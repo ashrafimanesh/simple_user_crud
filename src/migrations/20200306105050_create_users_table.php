@@ -13,7 +13,7 @@ class create_users_table{
             $table->addField((new BigIntField('id', 20, false, true)));
             $table->addField((new StringField('first_name', 200)));
             $table->addField((new StringField('last_name', 200)));
-            $table->addField((new StringField('email', 200))->index(SchemaField::INDEX_NORMAL));
+            $table->addField((new StringField('email', 200))->index(SchemaField::INDEX_UNIQUE));
             $table->timestamps();
         });
     }
